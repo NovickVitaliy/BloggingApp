@@ -49,12 +49,12 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
         builder.Entity<User>()
             .HasOne(u => u.MailBox)
             .WithOne(mailBox => mailBox.User)
-            .HasForeignKey<MailBox>(box => box.Id);
+            .HasForeignKey<MailBox>(box => box.UserId);
         
         builder.Entity<MailBox>()
             .HasMany(m => m.Messages)
             .WithOne(message => message.MailBox)
-            .HasForeignKey(message => message.Id);
+            .HasForeignKey(message => message.MailBoxId);
         
         base.OnModelCreating(builder);
 

@@ -57,6 +57,17 @@ public class AccountController : Controller
 
         if (registerResult.Status == RegisterStatus.Success)
         {
+            var email = User.Identity.Name;
+            var user = _repositoryManager.UserRepository.FindByCondition(u => u.Email == email, true).First();
+            MailBox mailBox = new MailBox()
+            {
+                Id = Guid.NewGuid(),
+                UserId = user.Id
+            };
+
+            user.MailBoxId = mailBox.Id;
+            _repositoryManager.MailBoxRepository.Create(mailBox);
+            await _repositoryManager.Save();
             ViewData["ActiveLink"] = "none";
             return LocalRedirect("~/Account/ConfigureUserAccount");
         }

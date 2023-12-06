@@ -32,16 +32,12 @@ public class AccountService : IAccountService
         {
             return new RegisterResult() { Status = RegisterStatus.Failed };
         }
-        Guid newUserId = Guid.NewGuid();
-        Guid newMailBoxId = Guid.NewGuid();
         User newUser = new User()
         {
             FullName = registerDto.FullName,
             Email = registerDto.Email,
             UserName = registerDto.Email,
-            CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow),
-            MailBox = new MailBox() {Id = newMailBoxId, UserId = newUserId},
-            MailBoxId = newMailBoxId
+            CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow)
         };
 
         IdentityResult result = await _userManager.CreateAsync(newUser, registerDto.Password!);
