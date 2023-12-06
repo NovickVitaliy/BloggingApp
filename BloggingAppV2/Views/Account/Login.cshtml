@@ -1,0 +1,23 @@
+@{
+    Layout = "_Layout";
+}
+
+@model LoginDto
+
+<div>
+    <form asp-controller="Account" asp-action="Login" method="post">
+        <div class="form-input">
+            <label for="email">Email:</label>
+            <input id="email" asp-for="Email">
+        </div>
+        <div class="form-input">
+            <label for="password">Password:</label>
+            <input id="password" asp-for="Password">
+        </div>
+        <div class="text-red" asp-validation-summary="All"></div>
+        <div class="buttons">
+            <button type="button" class="button default-button"><a asp-controller="Home" asp-action="Home">Cancel</a></button>
+            <button class="button action-button" asp-controller="Account" asp-action="Login">Login</button>
+        </div>
+    </form>
+</div>

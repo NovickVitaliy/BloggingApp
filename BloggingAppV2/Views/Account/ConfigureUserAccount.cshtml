@@ -1,0 +1,105 @@
+@model ConfigureUserDetailDto
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div>
+    <h1>Let the world know more about you</h1>
+
+    <form asp-controller="Account" asp-action="">
+        <div class="form-input">
+            <label for="description">Description</label>
+            <textarea id="description" asp-for="Description"></textarea>
+        </div>
+        <div class="form-input">
+            <label for="dateOfBirth">Date Of Birth</label>
+            <input id="dateOfBirth" asp-for="DateOfBirth"></input>
+        </div>
+        <div class="form-input">
+            <label for="gender">Gender</label>
+            <select id="gender" asp-for="Gender" name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="nonbinary">Non-binary</option>
+                <option value="genderqueer">Genderqueer</option>
+                <option value="transgender">Transgender</option>
+                <option value="cisgender">Cisgender</option>
+                <option value="agender">Agender</option>
+                <option value="bigender">Bigender</option>
+                <option value="demigender">Demigender</option>
+                <option value="intergender">Intergender</option>
+                <option value="neutrois">Neutrois</option>
+                <option value="pangender">Pangender</option>
+                <option value="two-spirit">Two-Spirit</option>
+                <option value="androgyne">Androgyne</option>
+                <option value="apogender">Apogender</option>
+                <option value="ceterogender">Ceterogender</option>
+                <option value="faegender">Faegender</option>
+                <option value="gemelgender">Gemelgender</option>
+                <option value="libragender">Libragender</option>
+                <option value="mascfluid">Mascfluid</option>
+                <option value="mirrorgender">Mirrorgender</option>
+                <option value="nanogender">Nanogender</option>
+                <option value="nocturnalgender">Nocturnalgender</option>
+                <option value="novigender">Novigender</option>
+                <option value="omnigender">Omnigender</option>
+                <option value="quivergender">Quivergender</option>
+                <option value="stargender">Stargender</option>
+                <option value="trigender">Trigender</option>
+                <option value="vapogender">Vapogender</option>
+                <option value="xenogender">Xenogender</option>
+                <option value="abimegender">Abimegender</option>
+                <option value="aerogender">Aerogender</option>
+                <option value="apogender">Apogender</option>
+                <option value="aquarigender">Aquarigender</option>
+                <option value="astrogender">Astrogender</option>
+                <option value="cavusgender">Cavusgender</option>
+                <option value="chaosgender">Chaosgender</option>
+                <option value="cloudgender">Cloudgender</option>
+                <option value="columngender">Columngender</option>
+                <option value="coricgender">Coricgender</option>
+                <option value="crystagender">Crystagender</option>
+                <option value="duragender">Duragender</option>
+                <option value="egogender">Egogender</option>
+                <option value="elementgender">Elementgender</option>
+                <option value="faunagender">Faunagender</option>
+                <option value="femfluid">Femfluid</option>
+                <option value="gemelgender">Gemelgender</option>
+                <option value="glimragender">Glimragender</option>
+                <option value="gossamergender">Gossamergender</option>
+                <option value="heliogender">Heliogender</option>
+                <option value="hydrogender">Hydrogender</option>
+                <option value="imperigender">Imperigender</option>
+                <option value="juxera">Juxera</option>
+                <option value="lunarfluid">Lunarfluid</option>
+                <option value="magusgender">Magusgender</option>
+                <option value="mascfluid">Mascfluid</option>
+                <option value="melogender">Melogender</option>
+                <option value="mirrorgender">Mirrorgender</option>
+                <option value="nanogender">Nanogender</option>
+                <option value="neurogender">Neurogender</option>
+                <option value="novigender">Novigender</option>
+                <option value="omnigender">Omnigender</option>
+                <option value="pandemicgender">Pandemicgender</option>
+                <option value="paragender">Paragender</option>
+                <option value="plasmagender">Plasmagender</option>
+            </select>
+        </div>
+        <div class="form-input">
+            <label for="country">Country</label>
+            <input id="country" asp-for="CountryName"></input>
+            <span class="text-red" asp-validation-for="CountryName"></span>
+        </div>
+        <div class="buttons">
+            <button type="button" class="button default-button">
+                <a asp-controller="Home" asp-action="Home">Skip</a>
+            </button>
+            <button class="button action-button" asp-controller="Account" asp-action="ConfigureUserAccount">Confirm</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" asp-fallback-test="window.jQuery.validate.unobtrusive" asp-fallback-src="~/jquery.validate.unobtrusive.min.js"></script>

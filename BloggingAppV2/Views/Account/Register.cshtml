@@ -1,0 +1,31 @@
+@model RegisterDto
+
+@{
+    Layout = "_Layout";
+}
+
+<div>
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <div class="form-input">
+            <label for="fullname">Full name:</label>
+            <input id="fullname" asp-for="FullName">
+        </div>
+        <div class="form-input">
+            <label for="email">Email:</label>
+            <input id="email" asp-for="Email">
+        </div>
+        <div class="form-input">
+            <label for="password">Password:</label>
+            <input id="password" asp-for="Password">
+        </div>
+        <div class="form-input">
+            <label for="confirmPassword">Confirm password:</label>
+            <input id="confirmPassword" asp-for="ConfirmPassword">
+        </div>
+        <div class="text-red" asp-validation-summary="All"></div>
+        <div class="buttons">
+            <button type="button" class="button default-button"><a asp-controller="Home" asp-action="Home">Cancel</a></button>
+            <button class="button action-button" asp-controller="Account" asp-action="Register">Register</button>
+        </div>
+    </form>
+</div>

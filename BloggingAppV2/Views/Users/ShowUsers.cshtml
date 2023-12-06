@@ -1,0 +1,43 @@
+@model IEnumerable<UserDto>?
+
+@{
+    Layout = "_Layout";
+}
+<form method="get" style="width: 80%" asp-controller="Users" asp-action="ShowUsers">
+    <div style="display: flex; flex-direction: column; width: 100%">
+        <div class="search-bar form-input mb-1">
+            <input style="margin-bottom: 10px" name="searchName" type="text" placeholder="Name...">
+            <button class="button">Search</button>
+        </div>
+        <div class="user-list">
+            @if (Model != null)
+            {
+                foreach (var userDto in Model)
+                {
+                    <div class="user-list-item">
+                        <div class="user-list-item-info">
+                            <div class="profile-img-mini">
+                                @if (userDto.Photo?.Url != null)
+                                {
+                                    <img src="@userDto.Photo.Url" alt="picture"/>
+                                }
+                                else
+                                {
+                                    <img src="~/images/default-user-image.jpg" alt="picture"/>
+                                }
+                            </div>
+                            <div class="user-list-item-info-about-user">
+                                <p>@userDto.FullName</p>
+                                <p>@userDto.Email</p>
+                            </div>
+                        </div>
+                        <div class="user-list-item-actions">
+                            <button class="button"  >Add Friend</button>
+                            <button class="button">Block</button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</form>

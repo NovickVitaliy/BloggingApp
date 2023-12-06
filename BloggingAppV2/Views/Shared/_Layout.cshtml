@@ -1,0 +1,117 @@
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Inter:wght@200&family=Lexend:wght@200&family=Roboto+Condensed&family=Roboto:wght@100;300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+<div class="header">
+    <div class="header-menu">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <ul>
+                <li>
+                    @if (ViewData["ActiveLink"] == "ForMe")
+                    {
+                        <a class="link-active">For me</a>
+                    }
+                    else
+                    {
+                        <a>For me</a>
+                    }
+                </li>
+                <li>
+                    @if (ViewData["ActiveLink"] == "MyBlog")
+                    {
+                        <a class="link-active">My Blog</a>
+                    }
+                    else
+                    {
+                        <a>My Blog</a>
+                    }
+                </li>
+                <li>
+                    @if (ViewData["ActiveLink"] == "ShowUsers")
+                    {
+                        <a class="link-active" asp-controller="Users" asp-action="ShowUsers">Search people</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Users" asp-action="ShowUsers">Search people</a>
+                    }
+                </li>
+            </ul>
+        }
+    </div>
+    <div class="account">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="mailbox">
+                <i class="fa-regular fa-envelope"><a asp-controller="Account" asp-action="MailBox"></a></i>
+            </div>
+            <div>
+                @if (ViewData["ActiveLink"] == "Account")
+                {
+                    <a asp-controller="Account" class="link-active" asp-action="Account">Account</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Account">Account</a>
+                }
+            </div>
+            <div>
+                <a asp-controller="Account" asp-action="Logout">Logout</a>
+            </div>
+        }
+        else
+        {
+            <div>
+                @if (ViewData["ActiveLink"] == "Register")
+                {
+                    <a asp-controller="Account" class="link-active" asp-action="Register">Register</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Register">Register</a>
+                }
+            </div>
+            <div>
+                @if (ViewData["ActiveLink"] == "Login")
+                {
+                    <a asp-controller="Account" class="link-active  " asp-action="Login">Login</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Login</a>
+                }
+            </div>
+        }
+    </div>
+</div>
+<div class="main-container">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>Sidebar</h1>
+            <p>Hello from sidebar</p>
+        </div>
+        <div class="sidebar-body">
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        @RenderBody()
+    </div>
+</div>
+</body>
+</html>
