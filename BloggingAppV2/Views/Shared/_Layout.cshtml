@@ -52,7 +52,7 @@
         @if (User.Identity.IsAuthenticated)
         {
             <div class="mailbox">
-                <i class="fa-regular fa-envelope"><a asp-controller="Account" asp-action="MailBox"></a></i>
+                <a asp-controller="Account" asp-action="MailBox"><i class="fa-regular fa-envelope"></i></a>
             </div>
             <div>
                 @if (ViewData["ActiveLink"] == "Account")

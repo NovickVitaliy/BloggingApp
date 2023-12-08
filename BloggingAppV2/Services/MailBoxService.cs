@@ -43,7 +43,7 @@ public class MailBoxService : IMailBoxService
 
         if (message != null)
         {
-            sendMessageRequest.Receiver.MailBox.Messages.Add(message);
+           // sendMessageRequest.Receiver.MailBox.Messages.Add(message);
             return Task.FromResult(true);
         }
 

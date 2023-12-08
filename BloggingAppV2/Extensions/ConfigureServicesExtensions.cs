@@ -1,5 +1,4 @@
 using BloggingApp.Web.DataBase;
-using BloggingApp.Web.Models.Identity;
 using BloggingApp.Web.Services;
 using BloggingApp.Web.ServicesContracts;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using BloggingApp.Web.Configurations;
 using BloggingApp.Web.Repositories;
 using BloggingApp.Web.RepositoriesInterface;
+using BloggingAppV2.Models.Main.Identity;
 
 namespace BloggingApp.Web.Extensions;
 

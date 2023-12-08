@@ -3,7 +3,6 @@ using System;
 using BloggingApp.Web.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,16 +10,37 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BloggingAppV2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231206195139_Initial7")]
-    partial class Initial7
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
-            modelBuilder.Entity("BloggingApp.Web.Models.Identity.User", b =>
+            modelBuilder.Entity("BloggingApp.Web.Models.Main.Photo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Photos", (string)null);
+                });
+
+            modelBuilder.Entity("BloggingAppV2.Models.Main.Identity.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,9 +51,6 @@ namespace BloggingAppV2.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("CountryId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateOnly?>("CreatedAt")
@@ -64,9 +81,6 @@ namespace BloggingAppV2.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("MailBoxId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
@@ -84,9 +98,6 @@ namespace BloggingAppV2.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid?>("PhotoId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
@@ -99,8 +110,6 @@ namespace BloggingAppV2.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -109,101 +118,6 @@ namespace BloggingAppV2.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.Country", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FlagUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Countries");
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.MailBox", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MailBoxes");
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.Photo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PublicId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Photos");
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.UserFriendship", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserFriendId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("UserId", "UserFriendId");
-
-                    b.HasIndex("UserFriendId");
-
-                    b.ToTable("UserFriendship");
-                });
-
-            modelBuilder.Entity("MailBoxMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("MailBoxId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("SentAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MailBoxMessages");
-
-                    b.UseTpcMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -332,96 +246,15 @@ namespace BloggingAppV2.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.FriendRequestMessage", b =>
-                {
-                    b.HasBaseType("MailBoxMessage");
-
-                    b.Property<bool>("Accepted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("FromUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ToUserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasIndex("FromUserId");
-
-                    b.HasIndex("ToUserId");
-
-                    b.ToTable("FriendRequestMessages", (string)null);
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.SystemMessage", b =>
-                {
-                    b.HasBaseType("MailBoxMessage");
-
-                    b.Property<string>("AdminName")
-                        .HasColumnType("TEXT");
-
-                    b.ToTable("SystemMessages", (string)null);
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Identity.User", b =>
-                {
-                    b.HasOne("BloggingApp.Web.Models.Main.Country", "Country")
-                        .WithMany("Users")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.MailBox", b =>
-                {
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", "User")
-                        .WithOne("MailBox")
-                        .HasForeignKey("BloggingApp.Web.Models.Main.MailBox", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("BloggingApp.Web.Models.Main.Photo", b =>
                 {
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", "User")
+                    b.HasOne("BloggingAppV2.Models.Main.Identity.User", "User")
                         .WithOne("Photo")
                         .HasForeignKey("BloggingApp.Web.Models.Main.Photo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.UserFriendship", b =>
-                {
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", "UserFriend")
-                        .WithMany()
-                        .HasForeignKey("UserFriendId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", "User")
-                        .WithMany("Friends")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("UserFriend");
-                });
-
-            modelBuilder.Entity("MailBoxMessage", b =>
-                {
-                    b.HasOne("BloggingApp.Web.Models.Main.MailBox", "MailBox")
-                        .WithMany("Messages")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MailBox");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -435,7 +268,7 @@ namespace BloggingAppV2.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", null)
+                    b.HasOne("BloggingAppV2.Models.Main.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -444,7 +277,7 @@ namespace BloggingAppV2.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", null)
+                    b.HasOne("BloggingAppV2.Models.Main.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -459,7 +292,7 @@ namespace BloggingAppV2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", null)
+                    b.HasOne("BloggingAppV2.Models.Main.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -468,49 +301,16 @@ namespace BloggingAppV2.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", null)
+                    b.HasOne("BloggingAppV2.Models.Main.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.FriendRequestMessage", b =>
+            modelBuilder.Entity("BloggingAppV2.Models.Main.Identity.User", b =>
                 {
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", "FromUser")
-                        .WithMany()
-                        .HasForeignKey("FromUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BloggingApp.Web.Models.Identity.User", "ToUser")
-                        .WithMany()
-                        .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FromUser");
-
-                    b.Navigation("ToUser");
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Identity.User", b =>
-                {
-                    b.Navigation("Friends");
-
-                    b.Navigation("MailBox");
-
                     b.Navigation("Photo");
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.Country", b =>
-                {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("BloggingApp.Web.Models.Main.MailBox", b =>
-                {
-                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

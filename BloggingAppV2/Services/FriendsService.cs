@@ -1,7 +1,7 @@
 using BloggingApp.Web.Enums;
 using BloggingApp.Web.Models.DTOs;
-using BloggingApp.Web.Models.Identity;
 using BloggingApp.Web.ServicesContracts;
+using BloggingAppV2.Models.Main.Identity;
 
 namespace BloggingApp.Web.Services;
 

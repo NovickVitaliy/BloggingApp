@@ -1,5 +1,5 @@
 using BloggingApp.Web.Models.DTOs;
-using BloggingApp.Web.Models.Identity;
+using BloggingAppV2.Models.Main.Identity;
 
 namespace BloggingApp.Web.Models.Main;
 

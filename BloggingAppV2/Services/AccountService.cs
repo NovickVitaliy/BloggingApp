@@ -1,9 +1,9 @@
 using BloggingApp.Web.Enums;
 using BloggingApp.Web.Models.DTOs;
 using BloggingApp.Web.Models.General.AccountRelatedModels;
-using BloggingApp.Web.Models.Identity;
 using BloggingApp.Web.Models.Main;
 using BloggingApp.Web.ServicesContracts;
+using BloggingAppV2.Models.Main.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace BloggingApp.Web.Services;

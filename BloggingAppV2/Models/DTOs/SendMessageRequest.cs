@@ -1,6 +1,6 @@
 using BloggingApp.Web.Enums;
-using BloggingApp.Web.Models.Identity;
 using BloggingApp.Web.Models.Main;
+using BloggingAppV2.Models.Main.Identity;
 
 namespace BloggingApp.Web.Models.DTOs;
 

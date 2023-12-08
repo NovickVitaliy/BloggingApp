@@ -6,15 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BloggingAppV2.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial8 : Migration
+    public partial class what : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Photos_AspNetUsers_UserId",
-                table: "Photos");
-
             migrationBuilder.AlterColumn<Guid>(
                 name: "UserId",
                 table: "Photos",
@@ -22,22 +18,11 @@ namespace BloggingAppV2.Migrations
                 nullable: true,
                 oldClrType: typeof(Guid),
                 oldType: "TEXT");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Photos_AspNetUsers_UserId",
-                table: "Photos",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Photos_AspNetUsers_UserId",
-                table: "Photos");
-
             migrationBuilder.AlterColumn<Guid>(
                 name: "UserId",
                 table: "Photos",
@@ -47,14 +32,6 @@ namespace BloggingAppV2.Migrations
                 oldClrType: typeof(Guid),
                 oldType: "TEXT",
                 oldNullable: true);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Photos_AspNetUsers_UserId",
-                table: "Photos",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
     }
 }
