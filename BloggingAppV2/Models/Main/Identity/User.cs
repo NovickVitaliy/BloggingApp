@@ -13,8 +13,6 @@ public class User : IdentityUser<Guid>
     public Photo Photo { get; set; }
     public Guid? CountryId { get; set; }
     public Country? Country { get; set; }
-    
-    //public Guid? MailBoxId { get; set; }
-    //public MailBox? MailBox { get; set; }
+    public MailBox? MailBox { get; set; }
     //public List<UserFriendship>? Friends { get; set; }
 }
