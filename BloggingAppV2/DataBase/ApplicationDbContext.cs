@@ -22,14 +22,11 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     public DbSet<Country> Countries { get; set; }
     public DbSet<MailBox> MailBoxes { get; set; }
     public DbSet<MailBoxMessage> MailBoxMessages { get; set; }
-    //public DbSet<SystemMessage> SystemMessages { get; set; }
-    //public DbSet<FriendRequestMessage> FriendRequestMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-        //builder.Entity<MailBoxMessage>().UseTpcMappingStrategy();
         builder.Entity<SystemMessage>().ToTable("SystemMessages");
         builder.Entity<FriendRequestMessage>().ToTable("FriendRequestsMessages");
         builder.ApplyConfiguration(new PhotoConfiguration());
