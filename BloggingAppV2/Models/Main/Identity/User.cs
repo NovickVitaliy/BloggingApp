@@ -11,8 +11,8 @@ public class User : IdentityUser<Guid>
     public DateOnly? DateOfBirth { get; set; }
     public DateOnly? CreatedAt { get; set; }
     public Photo Photo { get; set; }
-    //public Guid? CountryId { get; set; }
-    //public Country? Country { get; set; }
+    public Guid? CountryId { get; set; }
+    public Country? Country { get; set; }
     
     //public Guid? MailBoxId { get; set; }
     //public MailBox? MailBox { get; set; }

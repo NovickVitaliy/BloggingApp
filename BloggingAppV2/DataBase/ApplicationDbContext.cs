@@ -17,13 +17,14 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     { }
     
     public DbSet<Photo> Photos { get; set; }
-    //public DbSet<Country> Countries { get; set; }
+    public DbSet<Country> Countries { get; set; }
     //public DbSet<MailBox> MailBoxes { get; set; }
     //public DbSet<MailBoxMessage> MailBoxMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new PhotoConfiguration());
+        builder.ApplyConfiguration(new CountryConfiguration());
         // builder.Entity<MailBoxMessage>().UseTpcMappingStrategy();
         // builder.Entity<SystemMessage>().ToTable("SystemMessages");
         // builder.Entity<FriendRequestMessage>().ToTable("FriendRequestMessages");

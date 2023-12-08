@@ -86,6 +86,7 @@ public class AccountController : Controller
         if (user == null)
         {
             user = _repositoryManager.UserRepository.FindByCondition(u => u.Email == currentUserEmail, false)
+                .Include(u => u.Country)
                 .Include(u => u.Photo)
                 .FirstOrDefault();
 
@@ -176,22 +177,22 @@ public class AccountController : Controller
         }
 
 
-        // var countryName = configureUserDetailDto.CountryName!.ToLower();
-        // var countryForUser = _repositoryManager.CountriesRepository
-        //     .FindByCondition(c => c.Name == countryName, true).FirstOrDefault();
-        //
-        // if (countryForUser == null)
-        // {
-        //     countryForUser = await _countriesService.GetByName(countryName);
-        //     countryForUser!.Name = countryName.ToLower();
-        //     _repositoryManager.CountriesRepository.Create(countryForUser!);
-        // }
+        var countryName = configureUserDetailDto.CountryName!.ToLower();
+        var countryForUser = _repositoryManager.CountriesRepository
+            .FindByCondition(c => c.Name == countryName, true).FirstOrDefault();
+        
+        if (countryForUser == null)
+        {
+            countryForUser = await _countriesService.GetByName(countryName);
+            countryForUser!.Name = countryName.ToLower();
+            _repositoryManager.CountriesRepository.Create(countryForUser!);
+        }
 
 
         currentUser.Description = configureUserDetailDto.Description;
         currentUser.DateOfBirth = configureUserDetailDto.DateOfBirth;
         currentUser.Gender = configureUserDetailDto.Gender;
-        //currentUser.Country = countryForUser;
+        currentUser.CountryId = countryForUser.Id;
         await _repositoryManager.Save();
         UpdateUserInCache(emailOfCurrentUser, currentUser);
         return LocalRedirect("~/Home/Home");
@@ -255,7 +256,7 @@ public class AccountController : Controller
         {
             userToUpdate = _repositoryManager.UserRepository
                 .FindByCondition(u => u.Email == currentUserEmail, false)
-                //.Include(u => u.Country)
+                .Include(u => u.Country)
                 .FirstOrDefault();
         }
 
@@ -277,25 +278,27 @@ public class AccountController : Controller
             userToUpdate = _repositoryManager.UserRepository
                 .FindByCondition(u => u.Email == currentUserEmail, true)
                 .Include(u => u.Photo)
-                //.Include(u => u.Country)
+                .Include(u => u.Country)
                 .FirstOrDefault();
         }
 
 
-        // string countryName = editProfileDto.CountryName.ToLower();
-        //
-        // var country = _repositoryManager.CountriesRepository.FindByCondition(c => c.Name == countryName, false)
-        //     .FirstOrDefault();
-        //
-        // if (country == null)
-        // {
-        //     country = await _countriesService.GetByName(countryName);
-        //     country.Name = countryName.ToLower();
-        //     _repositoryManager.CountriesRepository.Create(country);
-        // }
+        string countryName = editProfileDto.CountryName.ToLower();
+        
+        var country = _repositoryManager.CountriesRepository.FindByCondition(c => c.Name == countryName, true)
+            .FirstOrDefault();
+        
+        if (country == null)
+        {
+            country = await _countriesService.GetByName(countryName);
+            country.Name = countryName.ToLower();
+            _repositoryManager.CountriesRepository.Create(country);
+        }
 
         _mapper.Map(editProfileDto, userToUpdate);
-        //userToUpdate.Country = country;
+        country.Users.Add(userToUpdate);
+        userToUpdate.Country = country;
+        userToUpdate.CountryId = country.Id;
         await _repositoryManager.Save();
         UpdateUserInCache(currentUserEmail, userToUpdate);
 

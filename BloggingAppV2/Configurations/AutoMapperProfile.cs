@@ -11,9 +11,9 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<User, UserDto>();
         CreateMap<Photo, PhotoDto>();
-        // CreateMap<EditProfileDto, User>().ReverseMap()
-        //     .ForMember(one => one.CountryName, 
-        //         opt => opt.MapFrom(u => u.Country.Name));
+        CreateMap<EditProfileDto, User>().ReverseMap()
+            .ForMember(one => one.CountryName, 
+                opt => opt.MapFrom(u => u.Country.Name));
         CreateMap<Country, CountryDto>();
     }
 }
