@@ -28,11 +28,11 @@
                 <li>
                     @if (ViewData["ActiveLink"] == "MyBlog")
                     {
-                        <a class="link-active">My Blog</a>
+                        <a class="link-active" asp-controller="PersonalBlog" asp-action="MyBlog">My Blog</a>
                     }
                     else
                     {
-                        <a>My Blog</a>
+                        <a asp-controller="PersonalBlog" asp-action="MyBlog">My Blog</a>
                     }
                 </li>
                 <li>

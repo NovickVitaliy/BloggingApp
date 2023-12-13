@@ -10,6 +10,7 @@ body, html {
   grid-template-areas: "rightside main main main main leftside leftside";
 }
 .main-container .container {
+  width: 70vw;
   margin-top: 20px;
   display: flex;
   justify-content: center;
@@ -230,6 +231,49 @@ select:hover {
 .user-list .user-list-item .user-list-item-actions button {
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.bg-green {
+  background-color: limegreen;
+}
+
+.mailbox .mailbox-message {
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.create-post {
+  width: 100%;
+  max-width: 100%;
+}
+.create-post h1 {
+  font-weight: normal;
+  font-size: 22px;
+  margin-left: 5px;
+}
+.create-post .add-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2%;
+}
+.create-post .tag {
+  width: 10%;
+}
+.create-post .tags {
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.create-post .tags input {
+  font-size: 22px;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+.create-post .tags input:enabled {
+  outline: none;
 }
 
 /*# sourceMappingURL=styles.css.map */

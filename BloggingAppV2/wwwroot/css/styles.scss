@@ -15,6 +15,7 @@ body, html {
   grid-template-areas: 'rightside main main main main leftside leftside';
 
   .container {
+    width: 70vw;
     margin-top: 20px;
     display: flex;
     justify-content: center;
@@ -290,5 +291,43 @@ select {
     border-radius: 20px;
     display: flex;
     flex-direction: row;
+  }
+}
+
+.create-post {
+  width: 100%;
+  max-width: 100%;
+
+  h1 {
+    font-weight: normal;
+    font-size: 22px;
+    margin-left: 5px;
+  }
+
+  .add-tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2%;
+  }
+
+  .tag {
+    width: 10%;
+  }
+
+  .tags {
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    input {
+      font-size: 22px;
+      border: 1px solid gray;
+      border-radius: 10px;
+
+      &:enabled {
+        outline: none;
+      }
+    }
   }
 }
