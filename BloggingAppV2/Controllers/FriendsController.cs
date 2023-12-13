@@ -3,6 +3,7 @@ using BloggingApp.Web.RepositoriesInterface;
 using BloggingApp.Web.ServicesContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloggingApp.Web.Controllers;
 
@@ -13,23 +14,28 @@ public class FriendsController : Controller
     private readonly IFriendsService _friendsService;
     private readonly IRepositoryManager _repositoryManager;
     
-    public FriendsController(IFriendsService friendsService)
+    public FriendsController(IFriendsService friendsService, IRepositoryManager repositoryManager)
     {
         _friendsService = friendsService;
+        _repositoryManager = repositoryManager;
     }
 
-    [HttpPost]
-    [Route("{userId}")]
-    public async Task<IActionResult> AddFriend(Guid userId)
+    [HttpGet]
+    [Route("{userEmail}")]
+    public async Task<IActionResult> AddFriend(string userEmail)
     {
         string? currentUserEmail = User.Identity.Name;
 
         var currentUser = _repositoryManager.UserRepository
             .FindByCondition(u => u.Email == currentUserEmail, true)
+            .Include(u => u.MailBox)
+            .Include(u => u.Photo)
             .First();
 
         var userToSendFriendRequest = _repositoryManager.UserRepository
-            .FindByCondition(u => u.Id == userId, true)
+            .FindByCondition(u => u.Email == userEmail, true)
+            .Include(u => u.MailBox)
+            .Include(u=> u.Photo)
             .First();
 
         if (userToSendFriendRequest == null)

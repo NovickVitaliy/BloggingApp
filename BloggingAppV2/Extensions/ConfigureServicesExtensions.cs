@@ -8,6 +8,7 @@ using BloggingApp.Web.Configurations;
 using BloggingApp.Web.Repositories;
 using BloggingApp.Web.RepositoriesInterface;
 using BloggingAppV2.Models.Main.Identity;
+using NLog;
 
 namespace BloggingApp.Web.Extensions;
 
@@ -16,8 +17,10 @@ public static class ConfigureServicesExtensions
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllersWithViews();
+        services.AddScoped<ILoggerManager, LoggerManager>();
         services.AddScoped<IAccountService, AccountService>();
-        
+        LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), 
+            "/nlog.development.config"));
         services.AddScoped<IPhotoService, PhotoService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRepositoryManager, RepositoryManager>();

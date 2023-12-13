@@ -26,7 +26,7 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
+        
         builder.Entity<SystemMessage>().ToTable("SystemMessages");
         builder.Entity<FriendRequestMessage>().ToTable("FriendRequestsMessages");
         builder.ApplyConfiguration(new PhotoConfiguration());

@@ -21,13 +21,15 @@ public class AccountController : Controller
     private readonly IPhotoService _photoService;
     private readonly ICountriesService _countriesService;
     private readonly IMemoryCache _cache;
+    private readonly IMailBoxService _mailBoxService;
 
     public AccountController(IAccountService accountService,
         IRepositoryManager repositoryManager,
         IMapper mapper,
         IPhotoService photoService,
         ICountriesService countriesService,
-        IMemoryCache cache)
+        IMemoryCache cache, 
+        IMailBoxService mailBoxService)
     {
         _accountService = accountService;
         _repositoryManager = repositoryManager;
@@ -35,6 +37,7 @@ public class AccountController : Controller
         _photoService = photoService;
         _countriesService = countriesService;
         _cache = cache;
+        _mailBoxService = mailBoxService;
     }
 
     [HttpGet]
@@ -57,6 +60,8 @@ public class AccountController : Controller
 
         if (registerResult.Status == RegisterStatus.Success)
         {
+            await _mailBoxService.CreateMailBox(_repositoryManager.UserRepository
+                .FindByCondition(u => u.Email == User.Identity.Name, true).Single());
             ViewData["ActiveLink"] = "none";
             return LocalRedirect("~/Account/ConfigureUserAccount");
         }
@@ -177,6 +182,7 @@ public class AccountController : Controller
         }
 
 
+        
         var countryName = configureUserDetailDto.CountryName!.ToLower();
         var countryForUser = _repositoryManager.CountriesRepository
             .FindByCondition(c => c.Name == countryName, true).FirstOrDefault();
@@ -325,17 +331,22 @@ public class AccountController : Controller
 
         var currentUser = (User)_cache.Get(currentUserEmail);
 
-        if (currentUser == null)
+        if (currentUser == null || currentUser.MailBox == null 
+                                || currentUser.MailBox.Messages == null)
         {
             currentUser = _repositoryManager.UserRepository
-                .FindByCondition(u => u.Email == currentUserEmail, false)
-               // .Include(u => u.MailBox)
+                .FindByCondition(u => u.Email == currentUserEmail, true)
+                .Include(e => e.MailBox)
+                .ThenInclude(e => e.Messages)
                 .First();
 
+            _repositoryManager.MailBoxRepository.FindByCondition(e => e.UserId == currentUser.Id, false);
+            
+            
+            
             _cache.Set(currentUserEmail, currentUser);
         }
 
-        return View();
-        //return View(currentUser.MailBox);
+        return View(currentUser.MailBox);
     }
 }

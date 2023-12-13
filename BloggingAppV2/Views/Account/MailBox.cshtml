@@ -4,6 +4,25 @@
     Layout = "_Layout";
 }
 
-<h1>For God`s sake it works, at least page is downloading</h1>
+<div class="mailbox">
 
-
+    @foreach (var mailBoxMessage in Model.Messages)
+    {
+        @if (mailBoxMessage is FriendRequestMessage friendRequestMessage && !friendRequestMessage.IsRead)
+        {
+            <div class="mailbox-message">
+                <div class="mailbox-message-icon">
+                    <img src="@friendRequestMessage.FromUser.Photo.Url" alt="">
+                </div>
+                <div>
+                    <h1>@mailBoxMessage.Title</h1>
+                    <p>@mailBoxMessage.Description</p>
+                    <div class="d-flex justify-content-start">
+                        <button class="button bg-green">Accept</button>
+                        <button class="button bg-danger">Deny</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

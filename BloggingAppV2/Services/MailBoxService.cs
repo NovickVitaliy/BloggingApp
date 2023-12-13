@@ -2,17 +2,34 @@ using AutoMapper;
 using BloggingApp.Web.Enums;
 using BloggingApp.Web.Models.DTOs;
 using BloggingApp.Web.Models.Main;
+using BloggingApp.Web.RepositoriesInterface;
 using BloggingApp.Web.ServicesContracts;
+using BloggingAppV2.Models.Main.Identity;
 
 namespace BloggingApp.Web.Services;
 
 public class MailBoxService : IMailBoxService
 {
     private readonly IMapper _mapper;
+    private readonly IRepositoryManager _repositoryManager;
 
-    public MailBoxService(IMapper mapper)
+    public MailBoxService(IMapper mapper, IRepositoryManager repositoryManager)
     {
         _mapper = mapper;
+        _repositoryManager = repositoryManager;
+    }
+
+    public async Task CreateMailBox(User userToCreateMailBox)
+    {
+        MailBox mailBox = new MailBox()
+        {
+            User = userToCreateMailBox,
+            UserId = userToCreateMailBox.Id
+        };
+
+        userToCreateMailBox.MailBox = mailBox;
+
+        await _repositoryManager.Save();
     }
 
     public Task<bool> SendMessage(SendMessageRequest sendMessageRequest)
@@ -43,7 +60,8 @@ public class MailBoxService : IMailBoxService
 
         if (message != null)
         {
-           // sendMessageRequest.Receiver.MailBox.Messages.Add(message);
+            message.MailBoxId = sendMessageRequest.Receiver.MailBox.Id;
+            sendMessageRequest.Receiver.MailBox.Messages.Add(message);
             return Task.FromResult(true);
         }
 

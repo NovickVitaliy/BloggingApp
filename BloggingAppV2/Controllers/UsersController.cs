@@ -25,11 +25,12 @@ public class UsersController : Controller
         {
             var users = await _repositoryManager.UserRepository.FindAll(false)
                 .Include(u => u.Photo)
+                .Where(e => EF.Functions.Like(e.FullName, $"%{searchName}%"))
                 .ToListAsync();
 
-            var usersToReturn = users.Where(u => u.FullName.Contains(searchName, StringComparison.OrdinalIgnoreCase));
+            //var usersToReturn = users.Where(u => u.FullName.Contains(searchName, StringComparison.OrdinalIgnoreCase));
 
-            return View(_mapper.Map<IEnumerable<UserDto>>(usersToReturn));
+            return View(_mapper.Map<IEnumerable<UserDto>>(users));
         }
         return View();
     }

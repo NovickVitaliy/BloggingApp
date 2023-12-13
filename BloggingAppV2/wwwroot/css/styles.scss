@@ -8,7 +8,7 @@ body, html {
 
 .main-container {
   .sidebar {
-    
+
   }
 
   display: grid;
@@ -25,7 +25,6 @@ body, html {
 }
 
 
-
 .header {
   display: flex;
   justify-content: space-between;
@@ -36,12 +35,12 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   ul {
     margin: 0;
   }
-  
-  ul li{
+
+  ul li {
     align-self: center;
     font-size: 26px;
     display: inline;
@@ -59,8 +58,8 @@ body, html {
 
 a {
   text-decoration: none;
-  color: black;  
-  
+  color: black;
+
   &:visited {
     color: black;
   }
@@ -70,18 +69,19 @@ a {
 .account {
   div {
     padding: 10px;
-    
-    &:hover{
+
+    &:hover {
       transform: scale(1.1);
     }
   }
 }
+
 .link-active {
   border-bottom: 1px solid black;
 }
 
 
-.text-red{
+.text-red {
   color: red;
 }
 
@@ -91,11 +91,11 @@ select {
   border: 1px solid gray;
   border-radius: 10px;
   background: none;
-  
+
   &:enabled {
     outline: none;
   }
-  
+
   &:hover {
     outline: none;
   }
@@ -105,24 +105,24 @@ select {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-  
+
   label {
     font-size: 22px;
     margin-left: 5px;
   }
-  
-  
+
+
   input {
     padding: 5px;
     font-size: 22px;
     border: 1px solid gray;
     border-radius: 10px;
-    
+
     &:enabled {
       outline: none;
     }
   }
-  
+
   textarea {
     padding: 5px;
     font-size: 22px;
@@ -132,6 +132,7 @@ select {
     height: 250px;
   }
 }
+
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -143,6 +144,7 @@ select {
   border-radius: 5px;
   background-color: white;
   transition: 0.7s;
+
   &:hover {
     background-color: #dadada;
     transition: 0.7s;
@@ -154,20 +156,20 @@ select {
   width: 100%;
   display: flex;
   margin-left: 10%;
-  
+
   .profile-options {
   }
-  
+
   .profile-details {
     margin-left: 20px;
-    
+
     .profile-details-header {
-      
+
       h1 {
         margin: 0;
       }
     }
-    
+
     .profile-details-body {
       p:nth-child(1) {
         margin: 0;
@@ -176,27 +178,27 @@ select {
       }
     }
   }
-  
-  .profile-img{
+
+  .profile-img {
     display: flex;
     width: 25%;
     flex-direction: column;
-    
-    p{
+
+    p {
       margin-left: 10px;
       margin-bottom: 2px;
       margin-top: 0;
     }
-    
+
     .profile-photo {
       width: 100%;
       border-radius: 40px;
     }
-    
+
     .profile-info {
       margin-top: 10px;
     }
-    
+
     .profile-img-buttons {
       display: flex;
       justify-content: space-between;
@@ -221,6 +223,7 @@ select {
   border-radius: 5px;
   background-color: white;
   transition: 0.7s;
+
   &:hover {
     background-color: #dadada;
     transition: 0.7s;
@@ -232,12 +235,13 @@ select {
   width: 70%;
 }
 
-.user-list{
+.user-list {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  .user-list-item{
+
+  .user-list-item {
     border: 1px solid black;
     overflow: hidden;
     border-radius: 10px;
@@ -246,15 +250,15 @@ select {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     .user-list-item-info {
       display: flex;
       width: 20%;
-      
+
       .user-list-item-info-about-user {
         margin-left: 10px;
       }
-      
+
       .profile-img-mini {
         img {
           width: 100px;
@@ -267,11 +271,24 @@ select {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      
+
       button {
         margin-left: 5px;
         margin-right: 5px;
       }
     }
+  }
+}
+
+.bg-green {
+  background-color: limegreen;
+}
+
+.mailbox {
+  .mailbox-message {
+    border: 1px solid black;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
   }
 }

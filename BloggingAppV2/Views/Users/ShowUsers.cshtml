@@ -14,6 +14,10 @@
             {
                 foreach (var userDto in Model)
                 {
+                    @if (userDto.Email == User.Identity.Name)
+                    {
+                        continue;
+                    }
                     <div class="user-list-item">
                         <div class="user-list-item-info">
                             <div class="profile-img-mini">
@@ -32,7 +36,7 @@
                             </div>
                         </div>
                         <div class="user-list-item-actions">
-                            <button class="button"  >Add Friend</button>
+                            <button class="button"><a asp-controller="Friends" asp-action="AddFriend" asp-route-userEmail="@userDto.Email">Add Friend</a></button>
                             <button class="button">Block</button>
                         </div>
                     </div>
