@@ -1,4 +1,5 @@
 using BloggingApp.Web.Models.Main;
+using BloggingApp.Web.Models.Main.Blogs;
 using Microsoft.AspNetCore.Identity;
 
 namespace BloggingAppV2.Models.Main.Identity;
@@ -15,4 +16,5 @@ public class User : IdentityUser<Guid>
     public Country? Country { get; set; }
     public MailBox? MailBox { get; set; }
     //public List<UserFriendship>? Friends { get; set; }
+    public List<Post> Posts { get; set; } = new();
 }

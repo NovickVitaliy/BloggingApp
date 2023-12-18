@@ -1,0 +1,16 @@
+@model PostResponse
+
+@{
+    Layout = null;
+}
+
+<div class="w-75 border border-dark rounded mb-3 mt-3">
+    <h1>@Model.Title</h1>
+    <hr class="w-75 m-auto"/>
+    <p>@Model.Content</p>
+    <hr class="w-75 m-auto"/>
+    @foreach (var tag in Model.Tags)
+    {
+        <span>@tag.Name</span>
+    }
+</div>

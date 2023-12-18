@@ -31,6 +31,8 @@ public static class ConfigureServicesExtensions
         services.AddResponseCaching();  
         services.AddScoped<ICountriesService, CountriesService>();
         services.AddAutoMapper(typeof(AutoMapperProfile));
+        services.AddScoped<ITagsService, TagsService>();
+        services.AddScoped<IBlogService, BlogService>();
         services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
         services.AddDbContext<ApplicationDbContext>(options =>
         {

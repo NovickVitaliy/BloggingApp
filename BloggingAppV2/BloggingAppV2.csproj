@@ -19,4 +19,12 @@
       <PackageReference Include="NLog.Extensions.Logging" Version="5.3.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="DataBase\ContextFactory\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\PersonalBlog\Components\Post\Default.cshtml" />
+    </ItemGroup>
+
 </Project>

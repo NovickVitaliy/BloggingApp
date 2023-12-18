@@ -1,5 +1,6 @@
 using BloggingApp.Web.DataBase.EntityConfigurations;
 using BloggingApp.Web.Models.Main;
+using BloggingApp.Web.Models.Main.Blogs;
 using BloggingApp.Web.Services;
 using BloggingAppV2.Models.Main.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +23,8 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     public DbSet<Country> Countries { get; set; }
     public DbSet<MailBox> MailBoxes { get; set; }
     public DbSet<MailBoxMessage> MailBoxMessages { get; set; }
-
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Tag> Tags { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -32,5 +34,7 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
         builder.ApplyConfiguration(new PhotoConfiguration());
         builder.ApplyConfiguration(new CountryConfiguration());
         builder.ApplyConfiguration(new MailBoxConfiguration());
+        builder.ApplyConfiguration(new PostConfiguration());
+        builder.ApplyConfiguration(new TagConfiguration());
     }
 }

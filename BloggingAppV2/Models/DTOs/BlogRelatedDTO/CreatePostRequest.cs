@@ -3,7 +3,7 @@ using BloggingAppV2.Helpers.CustomValidators;
 
 namespace BloggingApp.Web.Models.DTOs;
 
-public class CreateBlogRequest
+public class CreatePostRequest
 {
     [Required]
     [MaxLength(50)]
@@ -13,6 +13,6 @@ public class CreateBlogRequest
     public string Content { get; set; }
     
     [ListOfTagsValidator]
-    public List<string> Tags { get; set; }
+    public List<TagRequest> Tags { get; set; }
     
 }

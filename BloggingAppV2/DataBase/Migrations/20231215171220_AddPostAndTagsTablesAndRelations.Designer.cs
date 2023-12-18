@@ -3,6 +3,7 @@ using System;
 using BloggingApp.Web.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BloggingAppV2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231215171220_AddPostAndTagsTablesAndRelations")]
+    partial class AddPostAndTagsTablesAndRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -26,9 +29,6 @@ namespace BloggingAppV2.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("Likes")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -54,10 +54,15 @@ namespace BloggingAppV2.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Usages")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Tags");
                 });
@@ -360,21 +365,6 @@ namespace BloggingAppV2.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PostTag", b =>
-                {
-                    b.Property<Guid>("PostsId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("TagsId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("PostsId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("PostTag");
-                });
-
             modelBuilder.Entity("BloggingApp.Web.Models.Main.FriendRequestMessage", b =>
                 {
                     b.HasBaseType("MailBoxMessage");
@@ -414,6 +404,17 @@ namespace BloggingAppV2.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BloggingApp.Web.Models.Main.Blogs.Tag", b =>
+                {
+                    b.HasOne("BloggingApp.Web.Models.Main.Blogs.Post", "Post")
+                        .WithMany("Tags")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("BloggingApp.Web.Models.Main.MailBox", b =>
@@ -509,21 +510,6 @@ namespace BloggingAppV2.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PostTag", b =>
-                {
-                    b.HasOne("BloggingApp.Web.Models.Main.Blogs.Post", null)
-                        .WithMany()
-                        .HasForeignKey("PostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BloggingApp.Web.Models.Main.Blogs.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BloggingApp.Web.Models.Main.FriendRequestMessage", b =>
                 {
                     b.HasOne("BloggingAppV2.Models.Main.Identity.User", "FromUser")
@@ -556,6 +542,11 @@ namespace BloggingAppV2.Migrations
                         .HasForeignKey("BloggingApp.Web.Models.Main.SystemMessage", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BloggingApp.Web.Models.Main.Blogs.Post", b =>
+                {
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("BloggingApp.Web.Models.Main.Country", b =>
