@@ -5,4 +5,46 @@
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<div class="create-post">
+    <form asp-controller="PersonalBlog" asp-action="EditPost">
+        <input type="hidden" asp-for="Id" value="@Model.Id">
+        <div class="form-input">
+            <label asp-for="Title">Title</label>
+            <input type="text" asp-for="Title">
+            <span class="text-red" asp-validation-for="Title"></span>
+        </div>
+        <div class="form-input">
+            <label asp-for="Content">Content</label> <br>
+            <textarea asp-for="Content"></textarea>
+            <span class="text-red" asp-validation-for="Content"></span>
+        </div>
+        <h1>Tags:</h1>
+        <div class="d-flex tags">
+            @if (Model?.Tags != null)
+            {
+                for (int i = 0; i < Model.Tags.Count(); ++i)
+                {
+                    <input type="text" asp-for="Tags[i].Name" class="tag"/>
+                }
+            }
+            <div class="add-tag button" onclick="createTagInput()">
+                <i class="fa-solid fa-plus icon-4x"></i>
+            </div>
+        </div>
+        <span class="text-red" asp-validation-for="Tags"></span> <br>
+        <button class="button">Edit post</button>
+    </form>
+</div>
+<script>
+    let divWithTags = document.querySelector('.tags');
+    let addTagButton = document.querySelector('.add-tag');
+    let createTagInput = () => {
+        let countOfTags = divWithTags.childElementCount - 1;
+        let input = document.createElement("input");
+        input.setAttribute("type", "text")
+        input.setAttribute("name", `Tags[${countOfTags}].Name`);
+        input.classList.add('tag');
+        divWithTags.insertBefore(input, addTagButton);
+        countOfTags++;
+    }
+</script>

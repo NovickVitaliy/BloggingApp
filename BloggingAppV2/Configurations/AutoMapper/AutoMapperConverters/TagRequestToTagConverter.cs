@@ -4,13 +4,12 @@ using BloggingApp.Web.Models.Main.Blogs;
 
 namespace BloggingApp.Web.Configurations.AutoMapperConverters;
 
-public class TagRequestToTagConverter : IValueConverter<IEnumerable<TagRequest>, IEnumerable<Tag>>
+public class TagRequestToTagConverter : IValueConverter<List<TagRequest>, List<Tag>>
 {
-    public IEnumerable<Tag> Convert(IEnumerable<TagRequest> sourceMember, ResolutionContext context)
+    public List<Tag> Convert(List<TagRequest> sourceMember, ResolutionContext context)
     {
-        foreach (var tagRequest in sourceMember)
-        {
-            yield return new Tag() { Name = tagRequest.Name};
-        }
+        var list = sourceMember.Select(request => new Tag { Name = request.Name }).ToList();
+
+        return list;
     }
 }

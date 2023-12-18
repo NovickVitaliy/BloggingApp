@@ -4,6 +4,7 @@ using BloggingApp.Web.Models.Main.Blogs;
 using BloggingApp.Web.RepositoriesInterface;
 using BloggingApp.Web.ServicesContracts;
 using BloggingAppV2.Models.Main.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloggingApp.Web.Services;
 
@@ -13,8 +14,8 @@ public class BlogService : IBlogService
     private readonly IMapper _mapper;
     private readonly ITagsService _tagsService;
 
-    public BlogService(IRepositoryManager repositoryManager, 
-        IMapper mapper, 
+    public BlogService(IRepositoryManager repositoryManager,
+        IMapper mapper,
         ITagsService tagsService)
     {
         _repositoryManager = repositoryManager;
@@ -31,7 +32,7 @@ public class BlogService : IBlogService
         post.UserId = user.Id;
 
         var tags = (await _tagsService.GetTags(createPostRequest.Tags)).ToList();
-        
+
         foreach (var tag in tags)
         {
             tag.Posts.Add(post);
@@ -39,8 +40,35 @@ public class BlogService : IBlogService
 
         post.Tags = tags;
         user.Posts.Add(post);
+
+
+        await _repositoryManager.Save();
+    }
+
+    public async Task EditPost(EditPostRequest editPostRequest)
+    {
+        Post? postToEdit = _repositoryManager.PostRepository.FindByCondition(post => post.Id == editPostRequest.Id,
+                true)
+            .Include(post => post.Tags)
+            .FirstOrDefault();
+
+        if (postToEdit == null)
+        {
+            throw new ArgumentNullException();
+        }
+
+        var tags = await _tagsService.GetTags(editPostRequest.Tags, true);
+
+        postToEdit = _mapper.Map(editPostRequest, postToEdit);
+
+        postToEdit.Tags = tags;
         
-        
+        foreach (var tag in tags)
+        {
+            if(!tag.Posts.Contains(postToEdit))
+                tag.Posts.Add(postToEdit);
+        }
+
         await _repositoryManager.Save();
     }
 }

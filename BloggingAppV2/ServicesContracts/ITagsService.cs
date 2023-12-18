@@ -5,5 +5,5 @@ namespace BloggingApp.Web.ServicesContracts;
 
 public interface ITagsService
 {
-    Task<List<Tag>> GetTags(IEnumerable<TagRequest> tagRequests);
+    Task<List<Tag>> GetTags(IEnumerable<TagRequest> tagRequests, bool isEditing = false);
 }

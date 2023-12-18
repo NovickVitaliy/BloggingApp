@@ -16,7 +16,7 @@ public class TagsService : ITagsService
         _repositoryManager = repositoryManager;
     }
 
-    public async Task<List<Tag>> GetTags(IEnumerable<TagRequest> tagRequests)
+    public async Task<List<Tag>> GetTags(IEnumerable<TagRequest> tagRequests, bool isEditing = false)
     {
         var tags = _repositoryManager.TagRepository
             .FindByCondition(tag => tagRequests.Select(request => request.Name).Contains(tag.Name), true)
@@ -32,12 +32,21 @@ public class TagsService : ITagsService
                 {
                     var newTag = await CreateTag(tagRequest.Name);
                     tags.Add(newTag);
+                    if (isEditing)
+                    {
+                        await IncrementUsagesOfTag(newTag);
+                    }
                 }
             }
         }
 
-        await IncrementUsagesOfTasks(tags);
-
+        if (!isEditing)
+        {
+            foreach (var tag in tags)
+            {
+                await IncrementUsagesOfTag(tag);
+            }
+        }
         return tags;
     }
 
@@ -48,11 +57,8 @@ public class TagsService : ITagsService
         return tag;
     }
 
-    private async Task IncrementUsagesOfTasks(IEnumerable<Tag> tags)
+    private async Task IncrementUsagesOfTag(Tag tags)
     {
-        foreach (var tag in tags)
-        {
-            tag.Usages++;
-        }
+        tags.Usages++;
     }
 }

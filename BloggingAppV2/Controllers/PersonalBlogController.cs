@@ -18,9 +18,10 @@ public class PersonalBlogController : Controller
     private readonly IMapper _mapper;
     private readonly IBlogService _blogService;
     private readonly IMemoryCache _cache;
-    public PersonalBlogController(IRepositoryManager repositoryManager, 
-        IMapper mapper, 
-        IBlogService blogService, 
+
+    public PersonalBlogController(IRepositoryManager repositoryManager,
+        IMapper mapper,
+        IBlogService blogService,
         IMemoryCache cache)
     {
         _repositoryManager = repositoryManager;
@@ -42,7 +43,7 @@ public class PersonalBlogController : Controller
             .Posts;
 
         var postsResponses = _mapper.Map<List<PostResponse>>(posts);
-        
+
         return View(postsResponses);
     }
 
@@ -51,7 +52,7 @@ public class PersonalBlogController : Controller
     {
         return View();
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> CreatePost(CreatePostRequest createPostRequest)
     {
@@ -67,19 +68,31 @@ public class PersonalBlogController : Controller
         return LocalRedirect("~/PersonalBlog/MyBlog");
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> EditPost(Guid id)
-    {
-
-        return View();
-    }
-
     [HttpPost]
     public async Task<IActionResult> EditPost(EditPostRequest editPostRequest)
     {
-
+        await _blogService.EditPost(editPostRequest);
+        
         return LocalRedirect("~/PersonalBlog/MyBlog");
     }
+
+    [HttpGet]
+    public async Task<IActionResult> EditPost(Guid id)
+    {
+        var postToEdit = await _repositoryManager.PostRepository.FindByCondition(p => p.Id == id, false)
+            .Include(post => post.Tags)
+            .FirstOrDefaultAsync();
+
+        if (postToEdit == null)
+        {
+            return LocalRedirect($"~/PersonalBlog/MyBlog");
+        }
+
+        var editPostRequest = _mapper.Map<EditPostRequest>(postToEdit);
+
+        return View(editPostRequest);
+    }
+
 
     private async Task<User> GetCurrentUser()
     {

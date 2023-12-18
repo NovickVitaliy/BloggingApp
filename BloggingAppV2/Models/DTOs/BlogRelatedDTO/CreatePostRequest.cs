@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using BloggingApp.Web.Services;
 using BloggingAppV2.Helpers.CustomValidators;
 
 namespace BloggingApp.Web.Models.DTOs;

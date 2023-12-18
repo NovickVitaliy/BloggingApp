@@ -28,5 +28,13 @@ public class AutoMapperProfile : Profile
         CreateMap<Post, PostResponse>()
             .ForMember(response => response.Tags,
                 opt => opt.ConvertUsing(new TagsToTagsResponseConverter()));
+
+        CreateMap<Post, EditPostRequest>()
+            .ForMember(request => request.Tags,
+                opt => opt.ConvertUsing(new TagToTagRequestConverter()));
+
+        CreateMap<EditPostRequest, Post>()
+            .ForMember(post => post.Tags,
+                opt => opt.ConvertUsing(new TagRequestToTagConverter()));
     }
 }

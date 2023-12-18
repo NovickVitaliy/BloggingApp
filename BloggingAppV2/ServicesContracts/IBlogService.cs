@@ -5,5 +5,6 @@ namespace BloggingApp.Web.ServicesContracts;
 
 public interface IBlogService
 {
-    Task CreatePost(User userId, CreatePostRequest createPostRequest);
+    Task CreatePost(User user, CreatePostRequest createPostRequest);
+    Task EditPost(EditPostRequest editPostRequest);
 }
