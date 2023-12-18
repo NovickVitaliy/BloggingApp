@@ -11,4 +11,5 @@ public class Post
     public int Likes { get; set; }
     public Guid UserId { get; set; }
     public User User { get; set; }
+    public List<PostTag> PostTags { get; set; }
 }

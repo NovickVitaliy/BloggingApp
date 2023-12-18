@@ -93,6 +93,23 @@ public class PersonalBlogController : Controller
         return View(editPostRequest);
     }
 
+    public async Task<IActionResult> ConfirmDeletePost(Guid id)
+    {
+        return View(id);
+    }
+    
+    [HttpPost("{id}")]
+    public async Task<IActionResult> DeletePost(Guid id)
+    {
+        var postToDelete = _repositoryManager.PostRepository.FindByCondition(post => post.Id == id ,true)
+            .First();
+
+        _repositoryManager.PostRepository.Delete(postToDelete);
+
+        await _repositoryManager.Save();
+
+        return LocalRedirect("~/PersonalBlog/MyBlog");
+    }
 
     private async Task<User> GetCurrentUser()
     {

@@ -1,27 +1,23 @@
 @model PostResponse
 
-@{
-    Layout = null;
-}
-
 <div class="post w-75 border border-dark rounded mb-3 mt-3">
     <div class="post-header d-flex justify-content-between align-items-center">
-        <h1>@Model.Title</h1>
+        <h1 class="ms-1 mt-1">@Model.Title</h1>
         <div class="post-header-options d-flex justify-content-around h-100 w-25">
             <a asp-controller="PersonalBlog" asp-action="EditPost" asp-route-id="@Model.Id">
                 <i title="Edit" class="fa-2x fa-solid fa-pen-to-square"></i>
             </a>
-
-            <i title="Delete" class="fa-2x fa-solid fa-trash text-danger">
-
-            </i>
+            <a asp-controller="PersonalBlog" asp-action="ConfirmDeletePost" asp-route-id="@Model.Id">
+                <i title="Delete" class="fa-2x fa-solid fa-trash text-danger post-header-options-delete">
+                </i>
+            </a>
         </div>
     </div>
     <hr class="w-75 m-auto"/>
-    <p>@Model.Content</p>
+    <p class="ms-2 mt-2">@Model.Content</p>
     <hr class="w-75 m-auto"/>
     @foreach (var tag in Model.Tags)
     {
-        <span>@tag.Name</span>
+        <span class="ms-1 me-1">@tag.Name</span>
     }
 </div>

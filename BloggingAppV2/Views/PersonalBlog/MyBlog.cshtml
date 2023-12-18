@@ -11,10 +11,10 @@
         </div>
     </div>
     <div class="w-100">
-            @foreach (var postResponse in Model)
-            {
-                @await Component.InvokeAsync("Post", new { post = postResponse })
-            }
+        @foreach (var postResponse in Model)
+        {
+            @await Component.InvokeAsync("Post", new { post = postResponse })
+        }
     </div>
 
 </div>

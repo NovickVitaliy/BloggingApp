@@ -44,6 +44,21 @@ namespace BloggingAppV2.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("BloggingApp.Web.Models.Main.Blogs.PostTag", b =>
+                {
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PostTags");
+                });
+
             modelBuilder.Entity("BloggingApp.Web.Models.Main.Blogs.Tag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -416,6 +431,25 @@ namespace BloggingAppV2.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BloggingApp.Web.Models.Main.Blogs.PostTag", b =>
+                {
+                    b.HasOne("BloggingApp.Web.Models.Main.Blogs.Post", "Post")
+                        .WithMany("PostTags")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BloggingApp.Web.Models.Main.Blogs.Tag", "Tag")
+                        .WithMany("PostTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("Tag");
+                });
+
             modelBuilder.Entity("BloggingApp.Web.Models.Main.MailBox", b =>
                 {
                     b.HasOne("BloggingAppV2.Models.Main.Identity.User", "User")
@@ -556,6 +590,16 @@ namespace BloggingAppV2.Migrations
                         .HasForeignKey("BloggingApp.Web.Models.Main.SystemMessage", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BloggingApp.Web.Models.Main.Blogs.Post", b =>
+                {
+                    b.Navigation("PostTags");
+                });
+
+            modelBuilder.Entity("BloggingApp.Web.Models.Main.Blogs.Tag", b =>
+                {
+                    b.Navigation("PostTags");
                 });
 
             modelBuilder.Entity("BloggingApp.Web.Models.Main.Country", b =>

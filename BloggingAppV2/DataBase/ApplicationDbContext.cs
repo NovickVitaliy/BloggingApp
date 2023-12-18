@@ -25,6 +25,7 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     public DbSet<MailBoxMessage> MailBoxMessages { get; set; }
     public DbSet<Post> Posts { get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<PostTag> PostTags { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -36,5 +37,6 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
         builder.ApplyConfiguration(new MailBoxConfiguration());
         builder.ApplyConfiguration(new PostConfiguration());
         builder.ApplyConfiguration(new TagConfiguration());
+        builder.ApplyConfiguration(new PostTagConfiguration());
     }
 }

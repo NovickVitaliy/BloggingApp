@@ -1,0 +1,19 @@
+@model Guid
+
+@{
+    Layout = "_Layout";
+}
+
+<form asp-controller="PersonalBlog" asp-action="DeletePost" asp-route-id="@Model">
+    <div>
+        <h1>Are you sure you want to delete?</h1>
+        <div class="d-flex justify-content-between">
+            <div class="button">
+                <a asp-controller="PersonalBlog" asp-action="MyBlog">Cancel</a>
+            </div>
+            <button class="button bg-danger">
+                <a>Delete</a>
+            </button>
+        </div>
+    </div>
+</form>
