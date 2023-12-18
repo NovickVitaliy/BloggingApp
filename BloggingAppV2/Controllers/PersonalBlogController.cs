@@ -101,12 +101,7 @@ public class PersonalBlogController : Controller
     [HttpPost("{id}")]
     public async Task<IActionResult> DeletePost(Guid id)
     {
-        var postToDelete = _repositoryManager.PostRepository.FindByCondition(post => post.Id == id ,true)
-            .First();
-
-        _repositoryManager.PostRepository.Delete(postToDelete);
-
-        await _repositoryManager.Save();
+        await _blogService.DeletePost(id);
 
         return LocalRedirect("~/PersonalBlog/MyBlog");
     }

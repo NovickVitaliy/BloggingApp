@@ -277,16 +277,11 @@ public class AccountController : Controller
     {
         var currentUserEmail = User.Identity.Name;
 
-        User? userToUpdate = _cache.Get<User>(currentUserEmail);
-
-        if (userToUpdate == null)
-        {
-            userToUpdate = _repositoryManager.UserRepository
+         var   userToUpdate = _repositoryManager.UserRepository
                 .FindByCondition(u => u.Email == currentUserEmail, true)
                 .Include(u => u.Photo)
                 .Include(u => u.Country)
                 .FirstOrDefault();
-        }
 
 
         string countryName = editProfileDto.CountryName.ToLower();

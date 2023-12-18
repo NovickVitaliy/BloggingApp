@@ -7,4 +7,6 @@ public interface IBlogService
 {
     Task CreatePost(User user, CreatePostRequest createPostRequest);
     Task EditPost(EditPostRequest editPostRequest);
+    Task DeletePost(Guid postId);
+    Task LikePost(Guid postId);
 }

@@ -71,4 +71,19 @@ public class BlogService : IBlogService
 
         await _repositoryManager.Save();
     }
+
+    public async Task DeletePost(Guid postId)
+    {
+        var postToDelete = _repositoryManager.PostRepository.FindByCondition(post => post.Id == postId ,true)
+            .First();
+
+        _repositoryManager.PostRepository.Delete(postToDelete);
+
+        await _repositoryManager.Save();
+    }
+
+    public Task LikePost(Guid postId)
+    {
+        throw new NotImplementedException();
+    }
 }

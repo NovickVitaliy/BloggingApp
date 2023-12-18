@@ -1,0 +1,16 @@
+@model List<PostResponse>
+
+@{
+    Layout = "_Layout";
+}
+
+<div>
+    
+    
+    <div>
+        @foreach (var post in Model)
+        {
+            @await Component.InvokeAsync("Post", new { post = post})
+        }
+    </div>
+</div>
