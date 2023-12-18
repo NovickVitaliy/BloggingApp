@@ -62,12 +62,26 @@ public class PersonalBlogController : Controller
 
         var currentUser = GetCurrentUser();
 
-        await _blogService.CreatePost(currentUser, createPostRequest);
+        await _blogService.CreatePost(await currentUser, createPostRequest);
 
         return LocalRedirect("~/PersonalBlog/MyBlog");
     }
 
-    public User GetCurrentUser()
+    [HttpGet("{id}")]
+    public async Task<IActionResult> EditPost(Guid id)
+    {
+
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EditPost(EditPostRequest editPostRequest)
+    {
+
+        return LocalRedirect("~/PersonalBlog/MyBlog");
+    }
+
+    private async Task<User> GetCurrentUser()
     {
         string email = User.Identity.Name;
 
