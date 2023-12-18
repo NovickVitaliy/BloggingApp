@@ -4,6 +4,7 @@ namespace BloggingApp.Web.Models.DTOs;
 
 public class UserDto
 {
+    public Guid Id { get; set; }
     public string? FullName { get; set; }
     public string? Email { get; set; }
     public string? Gender { get; set; }
@@ -12,4 +13,5 @@ public class UserDto
     public DateOnly? CreatedAt { get; set; }
     public PhotoDto? Photo { get; set; }
     public CountryDto? Country { get; set; } 
+    public List<PostResponse> Posts { get; set; }
 }

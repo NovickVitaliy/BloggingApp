@@ -20,23 +20,27 @@
                     }
                     <div class="user-list-item">
                         <div class="user-list-item-info">
-                            <div class="profile-img-mini">
-                                @if (userDto.Photo?.Url != null)
-                                {
-                                    <img src="@userDto.Photo.Url" alt="picture"/>
-                                }
-                                else
-                                {
-                                    <img src="~/images/default-user-image.jpg" alt="picture"/>
-                                }
-                            </div>
+                            <a asp-controller="Users" asp-action="ProfileOfUser" asp-route-id="@userDto.Id">
+                                <div class="profile-img-mini">
+                                    @if (userDto.Photo?.Url != null)
+                                    {
+                                        <img src="@userDto.Photo.Url" alt="picture"/>
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/default-user-image.jpg" alt="picture"/>
+                                    }
+                                </div>
+                            </a>
                             <div class="user-list-item-info-about-user">
                                 <p>@userDto.FullName</p>
                                 <p>@userDto.Email</p>
                             </div>
                         </div>
                         <div class="user-list-item-actions">
-                            <button class="button"><a asp-controller="Friends" asp-action="AddFriend" asp-route-userEmail="@userDto.Email">Add Friend</a></button>
+                            <button class="button">
+                                <a asp-controller="Friends" asp-action="AddFriend" asp-route-userEmail="@userDto.Email">Add Friend</a>
+                            </button>
                             <button class="button">Block</button>
                         </div>
                     </div>

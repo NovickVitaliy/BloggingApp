@@ -1,0 +1,40 @@
+@model UserDto
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="profile">
+
+    <div class="profile-img">
+        @if (Model.Photo?.Url is not null)
+        {
+            <img class="profile-photo" src="@Model.Photo.Url" alt="user.png"/>
+        }
+        else
+        {
+            <img class="profile-photo" src="~/images/default-user-image.jpg" alt="user.png"/>
+        }
+        <div class="profile-info">
+            <p>
+                <b>Date Of Birth:</b> @(Model.DateOfBirth != null ? Model.DateOfBirth : "Unknown")
+            </p>
+            <p>
+                <b>Gender:</b> @(Model.Gender ?? "Unknown")
+            </p>
+            <p>
+                <b>Location:</b> <img src="@Model.Country?.FlagUrl" alt="" style="width: 20px"> @Model.Country?.Name
+            </p>
+        </div>
+    </div>
+    <div class="profile-details">
+        <div class="profile-details-header">
+            <h1>@Model.FullName</h1>
+            <p>User since: @Model.CreatedAt.ToString()</p>
+        </div>
+        <div class="profile-details-body">
+            <p>Description:</p>
+            <p>@Model.Description</p>
+        </div>
+    </div>
+</div>

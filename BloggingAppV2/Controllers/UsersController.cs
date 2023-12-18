@@ -34,4 +34,18 @@ public class UsersController : Controller
         }
         return View();
     }
+
+    public async Task<IActionResult> ProfileOfUser(Guid id)
+    {
+        var userToShow = _repositoryManager.UserRepository.FindByCondition(u => u.Id == id, false)
+            .Include(u => u.Photo)
+            .Include(u => u.Posts)
+            .ThenInclude(p => p.Tags)
+            .Include(u => u.Country)
+            .First();
+
+        UserDto userDto = _mapper.Map<UserDto>(userToShow);
+
+        return View(userDto);
+    }
 }
