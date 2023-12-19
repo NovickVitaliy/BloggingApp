@@ -26,6 +26,7 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     public DbSet<Post> Posts { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<PostTag> PostTags { get; set; }
+    public DbSet<UserPostLikes> UserPostLikes { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -38,5 +39,6 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
         builder.ApplyConfiguration(new PostConfiguration());
         builder.ApplyConfiguration(new TagConfiguration());
         builder.ApplyConfiguration(new PostTagConfiguration());
+        builder.ApplyConfiguration(new UserPostLikesConfiguration());
     }
 }

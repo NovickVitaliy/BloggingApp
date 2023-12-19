@@ -15,6 +15,6 @@ public class User : IdentityUser<Guid>
     public Guid? CountryId { get; set; }
     public Country? Country { get; set; }
     public MailBox? MailBox { get; set; }
-    //public List<UserFriendship>? Friends { get; set; }
     public List<Post> Posts { get; set; } = new();
+    public List<UserPostLikes> LikedPosts { get; set; } = new();
 }
