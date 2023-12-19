@@ -24,15 +24,11 @@ public class ForMyPageController : Controller
         _cache = cache;
     }
 
-    public async Task<IActionResult> ForMyPage(ForMyPageResponse forMyPageResponse,int amountPerPage = 10, int page = 1)
+    public async Task<IActionResult> ForMyPage(ForMyPageResponse? forMyPageResponse)
     {
-        if (forMyPageResponse == null)
-        {
-            forMyPageResponse = new ForMyPageResponse();
-        }
+        forMyPageResponse ??= new ForMyPageResponse();
 
-        forMyPageResponse.CurrentPage = page - 1;
-        ViewData["ActivePage"] = page;
+        ViewData["ActivePage"] = forMyPageResponse.CurrentPage;
         
         var posts = await GetCachedPosts();
         if (posts == null)
@@ -43,7 +39,7 @@ public class ForMyPageController : Controller
             await SetCachedPosts(posts);
         }
 
-        var postsToShow = _mapper.Map<List<PostResponse>>(posts.Skip(amountPerPage * forMyPageResponse.CurrentPage)
+        var postsToShow = _mapper.Map<List<PostResponse>>(posts.Skip(forMyPageResponse.AmountPerPage * (forMyPageResponse.CurrentPage - 1))
             .Take(forMyPageResponse.AmountPerPage)
             .ToList());
 
@@ -54,10 +50,18 @@ public class ForMyPageController : Controller
         return View(forMyPageResponse);
     }
     
-    public async Task<IActionResult> NextPage(int pageToGo, int amountPerPage)
+    public async Task<IActionResult> NextPage(ForMyPageResponse forMyPageResponse, int page)
+    {
+        forMyPageResponse.CurrentPage = page;
+        return RedirectToAction("ForMyPage", new RouteValueDictionary(forMyPageResponse));
+    }
+
+    public async Task<IActionResult> Like(ForMyPageResponse forMyPageResponse, Guid guid)
     {
         
-        return RedirectToAction("ForMyPage", new {amountPerPage = amountPerPage , page = pageToGo });
+        
+        TempData["ForMyPageResponse"] = forMyPageResponse;
+        return RedirectToAction("ForMyPage");
     }
 
     private async Task<List<Post>> GetCachedPosts()

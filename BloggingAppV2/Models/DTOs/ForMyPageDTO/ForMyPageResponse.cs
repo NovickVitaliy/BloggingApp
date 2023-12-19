@@ -11,7 +11,7 @@ public class ForMyPageResponse
     [Range(minimum: 1, maximum: 20, ErrorMessage = "Provide a valid number of posts(1-20)")]
     public int AmountPerPage { get; set; } = 10;
 
-    public int CurrentPage { get; set; }
+    public int CurrentPage { get; set; } = 1;
     public int NumberOfPages { get; set; }
     public List<PostResponse> Posts { get; set; }
 }
