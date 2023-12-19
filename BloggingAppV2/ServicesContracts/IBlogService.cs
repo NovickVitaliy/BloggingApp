@@ -9,4 +9,5 @@ public interface IBlogService
     Task EditPost(EditPostRequest editPostRequest);
     Task DeletePost(Guid postId);
     Task LikePost(Guid postId);
+    Task UnlikePost(Guid postId);
 }

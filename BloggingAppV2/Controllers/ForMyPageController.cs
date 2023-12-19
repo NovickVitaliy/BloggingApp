@@ -2,7 +2,10 @@ using AutoMapper;
 using BloggingApp.Web.Models.DTOs;
 using BloggingApp.Web.Models.Main.Blogs;
 using BloggingApp.Web.RepositoriesInterface;
+using BloggingApp.Web.ServicesContracts;
 using BloggingAppV2.Models.DTOs.ForMyPageDTO;
+using BloggingAppV2.Models.Main.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -10,18 +13,21 @@ using Microsoft.Extensions.Caching.Memory;
 namespace BloggingApp.Web.Controllers;
 
 [Route("[controller]/[action]")]
+[Authorize]
 public class ForMyPageController : Controller
 {
     private readonly IRepositoryManager _repository;
     private readonly IMapper _mapper;
     private readonly IMemoryCache _cache;
+    private readonly IBlogService _blogService;
     public ForMyPageController(IRepositoryManager repository, 
         IMapper mapper, 
-        IMemoryCache cache)
+        IMemoryCache cache, IBlogService blogService)
     {
         _repository = repository;
         _mapper = mapper;
         _cache = cache;
+        _blogService = blogService;
     }
 
     public async Task<IActionResult> ForMyPage(ForMyPageResponse? forMyPageResponse)
@@ -56,8 +62,27 @@ public class ForMyPageController : Controller
         return RedirectToAction("ForMyPage", new RouteValueDictionary(forMyPageResponse));
     }
 
-    public async Task<IActionResult> Like(ForMyPageResponse forMyPageResponse, Guid guid)
+    public async Task<IActionResult> Like(ForMyPageResponse forMyPageResponse, Guid postId)
     {
+        string currentUserEmail = User.Identity.Name;
+
+        User currentUser = _repository.UserRepository.FindByCondition(u => u.Email == currentUserEmail, true)
+            .Include(u => u.Posts)
+            .ThenInclude(p => p.Tags)
+            .Include(u => u.LikedPosts)
+            .First();
+
+        if (!(currentUser.LikedPosts.Count(e => e.PostId == postId) > 0))
+        {
+            await _blogService.LikePost(postId);
+            currentUser.LikedPosts.Add(new UserPostLikes() {UserId = currentUser.Id, PostId = postId});
+        }
+        else
+        {
+            await _blogService.UnlikePost(postId);
+            var postToUnlike = currentUser.LikedPosts.First(e => e.PostId == postId);
+            currentUser.LikedPosts.Remove(postToUnlike);
+        }
         
         
         TempData["ForMyPageResponse"] = forMyPageResponse;

@@ -28,7 +28,7 @@
                         <div class="d-flex justify-content-around w-25 mt-3 mb-1 align-items-center">
                             <div class="d-flex">
                                 <p>@post.Likes</p>
-                                <button class="me-2 ms-2 button" asp-controller="ForMyPage" asp-action="Like" asp-route-guid="@post.Id">
+                                <button class="me-2 ms-2 button" asp-controller="ForMyPage" asp-action="Like" asp-route-postId="@post.Id">
                                     @if (post.IsLiked)
                                     {
                                         <i class="fa-2x fa-solid fa-heart"></i>

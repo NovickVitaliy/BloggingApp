@@ -82,8 +82,23 @@ public class BlogService : IBlogService
         await _repositoryManager.Save();
     }
 
-    public Task LikePost(Guid postId)
+    public async Task LikePost(Guid postId)
     {
-        throw new NotImplementedException();
+        var postToLike = _repositoryManager.PostRepository.FindByCondition(e => e.Id == postId, true)
+            .First();
+
+        postToLike.Likes++;
+
+       await  _repositoryManager.Save();
+    }
+
+    public async Task UnlikePost(Guid postId)
+    {
+        var postToLike = _repositoryManager.PostRepository.FindByCondition(e => e.Id == postId, true)
+            .First();
+
+        postToLike.Likes--;
+
+        await  _repositoryManager.Save();
     }
 }
