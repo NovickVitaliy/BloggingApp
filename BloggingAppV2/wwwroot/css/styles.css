@@ -276,4 +276,8 @@ select:hover {
   outline: none;
 }
 
+.bg-blue {
+  background-color: #427bf5;
+}
+
 /*# sourceMappingURL=styles.css.map */

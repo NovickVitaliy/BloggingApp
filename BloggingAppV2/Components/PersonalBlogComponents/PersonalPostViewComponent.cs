@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BloggingAppV2.Components;
 
-public class PostViewComponent : ViewComponent
+public class PersonalPostViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke(PostResponse? post)
     {

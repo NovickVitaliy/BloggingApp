@@ -1,6 +1,6 @@
 @model PostResponse
 
-<div class="post w-75 border border-dark rounded mb-3 mt-3">
+<div class="post w-100 border border-dark rounded mb-3 mt-3">
     <div class="post-header d-flex justify-content-between align-items-center">
         <h1 class="ms-1 mt-1">@Model.Title</h1>
         <div class="post-header-options d-flex justify-content-around h-100 w-25">
@@ -34,20 +34,20 @@
         </div>
     </div>
 </div>
-<script>
-    let isRed = false;
-    let changeHeart = () => {
-        let heart = document.querySelector(".fa-heart");
-        
-        isRed = !isRed;
-        
-        if (isRed) {
-             heart.classList.remove("fa-regular");
-             heart.classList.add("fa-solid");
-        } else {
-             heart.classList.remove("fa-solid");
-             heart.classList.add("fa-regular");
-        }
-        
-    }
-</script>
+@* <script> *@
+@*     let isRed = false; *@
+@*     let changeHeart = () => { *@
+@*         let heart = document.querySelector(".fa-heart"); *@
+@*          *@
+@*         isRed = !isRed; *@
+@*          *@
+@*         if (isRed) { *@
+@*              heart.classList.remove("fa-regular"); *@
+@*              heart.classList.add("fa-solid"); *@
+@*         } else { *@
+@*              heart.classList.remove("fa-solid"); *@
+@*              heart.classList.add("fa-regular"); *@
+@*         } *@
+@*          *@
+@*     } *@
+@* </script> *@

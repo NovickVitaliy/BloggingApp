@@ -13,7 +13,7 @@
     <div class="w-100">
         @foreach (var postResponse in Model)
         {
-            @await Component.InvokeAsync("Post", new { post = postResponse })
+            @await Component.InvokeAsync("PersonalPost", new { post = postResponse })
         }
     </div>
 

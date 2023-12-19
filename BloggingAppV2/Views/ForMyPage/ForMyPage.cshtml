@@ -1,16 +1,46 @@
-@model List<PostResponse>
+@model ForMyPageResponse
 
 @{
     Layout = "_Layout";
 }
+<div class="w-100">
+    <form asp-controller="ForMyPage" asp-action="ForMyPage">
 
-<div>
-    
-    
-    <div>
-        @foreach (var post in Model)
-        {
-            @await Component.InvokeAsync("Post", new { post = post})
-        }
-    </div>
+        <div class="d-flex justify-content-start">
+            <div class="d-flex">
+                <select asp-for="PostOption">
+                    <option value="AllRecent">All Recent</option>
+                    <option value="Subscribed">Subscribed</option>
+                </select>
+                <h2 class="ms-2">Amount:</h2>
+                <input asp-for="AmountPerPage">
+                <button class="button ms-2">Show</button>
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-center flex-column">
+            @foreach (var post in Model.Posts)
+            {
+                @await Component.InvokeAsync("PersonalPost", new { post = post })
+            }
+        </div>
+        <div class="d-flex justify-content-center">
+            <ul class="pagination">
+                @for (int i = 0; i < Model.NumberOfPages; ++i)
+                {
+                    <li class="page-item">
+                        @if ((int)ViewData["ActivePage"] == i + 1)
+                        {
+                            <button asp-route-pageToGo="@(i + 1)" class="button bg-blue" asp-controller="ForMyPage" asp-action="NextPage">@(i + 1)</button>
+
+                        }
+                        else
+                        {
+                            <button asp-route-pageToGo="@(i + 1)" class="button" asp-controller="ForMyPage" asp-action="NextPage">@(i + 1)</button>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </form>
 </div>

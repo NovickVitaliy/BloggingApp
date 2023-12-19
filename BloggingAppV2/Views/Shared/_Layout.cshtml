@@ -18,11 +18,11 @@
                 <li>
                     @if (ViewData["ActiveLink"] == "ForMe")
                     {
-                        <a class="link-active">For me</a>
+                        <a class="link-active" asp-controller="ForMyPage" asp-action="ForMyPage">For me</a>
                     }
                     else
                     {
-                        <a>For me</a>
+                        <a asp-controller="ForMyPage" asp-action="ForMyPage">For me</a>
                     }
                 </li>
                 <li>
