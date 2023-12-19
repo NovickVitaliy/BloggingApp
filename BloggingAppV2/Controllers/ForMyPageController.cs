@@ -35,7 +35,8 @@ public class ForMyPageController : Controller
     {
         forMyPageResponse ??= new ForMyPageResponse();
 
-        ViewData["ActivePage"] = forMyPageResponse.CurrentPage;
+        User user = await GetCurrentUser();
+        
 
         var posts = _repository.PostRepository.FindAll(false)
             .Include(p => p.Tags)
@@ -47,8 +48,16 @@ public class ForMyPageController : Controller
             .Take(forMyPageResponse.AmountPerPage)
             .ToList());
 
+        foreach (var post in postsToShow)
+        {
+            if (user.LikedPosts.Any(e => e.PostId == post.Id))
+            {
+                post.IsLiked = true;
+            }
+        }
+        
         forMyPageResponse.Posts = postsToShow;
-
+        ViewData["ActivePage"] = forMyPageResponse.CurrentPage;
         forMyPageResponse.NumberOfPages = (posts.Count / forMyPageResponse.AmountPerPage) + 1;
 
         return View(forMyPageResponse);
@@ -62,13 +71,8 @@ public class ForMyPageController : Controller
 
     public async Task<IActionResult> Like(ForMyPageResponse forMyPageResponse, Guid postId)
     {
-        string currentUserEmail = User.Identity.Name;
 
-        User currentUser = _repository.UserRepository.FindByCondition(u => u.Email == currentUserEmail, true)
-            .Include(u => u.Posts)
-            .ThenInclude(p => p.Tags)
-            .Include(u => u.LikedPosts)
-            .First();
+        User currentUser = await GetCurrentUser();
 
         if (!(currentUser.LikedPosts.Count(e => e.PostId == postId) > 0))
         {
@@ -98,5 +102,17 @@ public class ForMyPageController : Controller
         {
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
         });
+    }
+
+    private async Task<User> GetCurrentUser()
+    {
+        string currentUserEmail = User.Identity.Name;
+        User currentUser = _repository.UserRepository.FindByCondition(u => u.Email == currentUserEmail, true)
+            .Include(u => u.Posts)
+            .ThenInclude(p => p.Tags)
+            .Include(u => u.LikedPosts)
+            .First();
+
+        return currentUser;
     }
 }
