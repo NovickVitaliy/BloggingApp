@@ -21,7 +21,7 @@
         <div class="d-flex justify-content-center flex-column">
             @foreach (var post in Model.Posts)
             {
-                @await Component.InvokeAsync("PersonalPost", new { post = post })
+                @await Component.InvokeAsync("ForMyPagePost", new { post = post })
             }
         </div>
         <div class="d-flex justify-content-center">
