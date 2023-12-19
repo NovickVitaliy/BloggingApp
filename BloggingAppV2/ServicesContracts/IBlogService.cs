@@ -1,4 +1,5 @@
 using BloggingApp.Web.Models.DTOs;
+using BloggingApp.Web.Models.Main.Blogs;
 using BloggingAppV2.Models.Main.Identity;
 
 namespace BloggingApp.Web.ServicesContracts;

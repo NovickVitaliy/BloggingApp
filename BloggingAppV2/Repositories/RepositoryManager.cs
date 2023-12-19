@@ -19,6 +19,7 @@ public class RepositoryManager : IRepositoryManager
     private readonly Lazy<IMailBoxRepository> _lazyMailBoxRepository;
     private readonly Lazy<IPostRepository> _lazyPostRepository;
     private readonly Lazy<ITagRepository> _lazyTagRepository;
+    private readonly Lazy<IUserPostLikeRepository> _lazyPostLikeRepository;
 
     public RepositoryManager(ApplicationDbContext context)
     {
@@ -29,6 +30,7 @@ public class RepositoryManager : IRepositoryManager
         _lazyMailBoxRepository = new Lazy<IMailBoxRepository>(() => new MailBoxRepository(context));
         _lazyPostRepository = new Lazy<IPostRepository>(() => new PostRepository(context));
         _lazyTagRepository = new Lazy<ITagRepository>(() => new TagRepository(context));
+        _lazyPostLikeRepository = new Lazy<IUserPostLikeRepository>(() => new UserPostLikeRepository(context));
     }
     public IUserRepository UserRepository => _lazyUserReposotiry.Value;
     public IPhotoRepository PhotoRepository => _lazyPhotoRepository.Value;
@@ -37,6 +39,7 @@ public class RepositoryManager : IRepositoryManager
     public IMailBoxRepository MailBoxRepository => _lazyMailBoxRepository.Value;
     public IPostRepository PostRepository => _lazyPostRepository.Value;
     public ITagRepository TagRepository => _lazyTagRepository.Value;
+    public IUserPostLikeRepository UserPostLikeRepository => _lazyPostLikeRepository.Value;
 
     public async Task Save()
     {

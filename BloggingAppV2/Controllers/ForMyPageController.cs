@@ -20,8 +20,9 @@ public class ForMyPageController : Controller
     private readonly IMapper _mapper;
     private readonly IMemoryCache _cache;
     private readonly IBlogService _blogService;
-    public ForMyPageController(IRepositoryManager repository, 
-        IMapper mapper, 
+
+    public ForMyPageController(IRepositoryManager repository,
+        IMapper mapper,
         IMemoryCache cache, IBlogService blogService)
     {
         _repository = repository;
@@ -35,17 +36,14 @@ public class ForMyPageController : Controller
         forMyPageResponse ??= new ForMyPageResponse();
 
         ViewData["ActivePage"] = forMyPageResponse.CurrentPage;
-        
-        var posts = await GetCachedPosts();
-        if (posts == null)
-        {
-            posts = _repository.PostRepository.FindAll(false)
-                .Include(p => p.Tags)
-                .ToList();
-            await SetCachedPosts(posts);
-        }
 
-        var postsToShow = _mapper.Map<List<PostResponse>>(posts.Skip(forMyPageResponse.AmountPerPage * (forMyPageResponse.CurrentPage - 1))
+        var posts = _repository.PostRepository.FindAll(false)
+            .Include(p => p.Tags)
+            .ToList();
+        await SetCachedPosts(posts);
+
+        var postsToShow = _mapper.Map<List<PostResponse>>(posts
+            .Skip(forMyPageResponse.AmountPerPage * (forMyPageResponse.CurrentPage - 1))
             .Take(forMyPageResponse.AmountPerPage)
             .ToList());
 
@@ -55,7 +53,7 @@ public class ForMyPageController : Controller
 
         return View(forMyPageResponse);
     }
-    
+
     public async Task<IActionResult> NextPage(ForMyPageResponse forMyPageResponse, int page)
     {
         forMyPageResponse.CurrentPage = page;
@@ -75,18 +73,18 @@ public class ForMyPageController : Controller
         if (!(currentUser.LikedPosts.Count(e => e.PostId == postId) > 0))
         {
             await _blogService.LikePost(postId);
-            currentUser.LikedPosts.Add(new UserPostLikes() {UserId = currentUser.Id, PostId = postId});
+            currentUser.LikedPosts.Add(new UserPostLikes() { UserId = currentUser.Id, PostId = postId });
         }
         else
         {
             await _blogService.UnlikePost(postId);
-            var postToUnlike = currentUser.LikedPosts.First(e => e.PostId == postId);
-            currentUser.LikedPosts.Remove(postToUnlike);
+            var postToUnlike = currentUser.LikedPosts.First(e => e.PostId == postId && e.UserId == currentUser.Id);
+            _repository.UserPostLikeRepository.Delete(postToUnlike);
         }
-        
-        
-        TempData["ForMyPageResponse"] = forMyPageResponse;
-        return RedirectToAction("ForMyPage");
+
+        await _repository.Save();
+
+        return RedirectToAction("ForMyPage", new RouteValueDictionary(forMyPageResponse));
     }
 
     private async Task<List<Post>> GetCachedPosts()

@@ -11,6 +11,7 @@ public interface IRepositoryManager
     IMailBoxRepository MailBoxRepository { get; }
     IPostRepository PostRepository { get; }
     ITagRepository TagRepository { get; }
+    IUserPostLikeRepository UserPostLikeRepository { get; }
     
     Task Save();
 }
