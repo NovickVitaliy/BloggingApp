@@ -2,6 +2,7 @@ using AutoMapper;
 using BloggingApp.Web.Enums;
 using BloggingApp.Web.Models.DTOs;
 using BloggingApp.Web.Models.Main;
+using BloggingApp.Web.Models.Main.Blogs;
 using BloggingApp.Web.RepositoriesInterface;
 using BloggingApp.Web.ServicesContracts;
 using BloggingAppV2.Models.Main.Identity;
@@ -93,6 +94,9 @@ public class AccountController : Controller
             user = _repositoryManager.UserRepository.FindByCondition(u => u.Email == currentUserEmail, false)
                 .Include(u => u.Country)
                 .Include(u => u.Photo)
+                .Include(u => u.LikedPosts)
+                    .ThenInclude(u => u.Post)
+                        .ThenInclude(u => u.Tags)
                 .FirstOrDefault();
 
             if (user == null)
@@ -343,5 +347,51 @@ public class AccountController : Controller
         }
 
         return View(currentUser.MailBox);
+    }
+
+    
+    
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> MyPosts()
+    {
+        string userEmail = User.Identity.Name;
+
+        var user = _repositoryManager.UserRepository.FindByCondition(e => e.Email == userEmail, false)
+            .Include(e => e.Posts)
+            .ThenInclude(p => p.Tags)
+            .FirstOrDefault();
+
+        var userPosts = user.Posts;
+
+        var postResponses = _mapper.Map<List<PostResponse>>(userPosts);
+
+        return ViewComponent("MyPosts", new {posts = postResponses});
+    }
+    
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> LikedPosts()
+    {
+        string userEmail = User.Identity.Name;
+
+        var user = _repositoryManager.UserRepository.FindByCondition(e => e.Email == userEmail, false)
+            .Include(e => e.LikedPosts)
+            .ThenInclude(e => e.Post)
+            .ThenInclude(e => e.Tags)
+            .FirstOrDefault();
+
+        var likedPosts = user.LikedPosts.Select(e => e.Post).ToList();
+
+        var likedPostsResponses = _mapper.Map<List<PostResponse>>(likedPosts);
+
+        return ViewComponent("LikedPosts", new { posts = likedPostsResponses });
+    }
+    
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> SavedPosts()
+    {
+        throw new NotImplementedException();
     }
 }

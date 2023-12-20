@@ -1,0 +1,7 @@
+@model List<PostResponse>
+
+
+@foreach (var post in Model)
+{
+    @await Component.InvokeAsync("PersonalPost", new {post = post})
+}

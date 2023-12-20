@@ -1,4 +1,5 @@
 using BloggingApp.Web.Models.Main;
+using BloggingApp.Web.Models.Main.Blogs;
 
 namespace BloggingApp.Web.Models.DTOs;
 
@@ -14,4 +15,5 @@ public class UserDto
     public PhotoDto? Photo { get; set; }
     public CountryDto? Country { get; set; } 
     public List<PostResponse> Posts { get; set; }
+    public List<PostResponse> LikedPosts { get; set; }
 }

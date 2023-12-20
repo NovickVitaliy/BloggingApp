@@ -4,57 +4,89 @@
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
-<div class="profile">
-
-    <div class="profile-img">
-        @if (Model.Photo?.Url is not null)
-        {
-            <img class="profile-photo" src="@Model.Photo.Url" alt="user.png"/>
-        }
-        else
-        {
-            <img class="profile-photo" src="~/images/default-user-image.jpg" alt="user.png"/>
-        }
-        <div class="profile-img-buttons">
-            <button type="button" class="button">
-                <a asp-controller="Account" asp-action="EditProfile">Edit</a>
-            </button>
-            <button class="button" onclick="openFileChooser()">Change photo</button>
-            <form enctype="multipart/form-data" style="display: none" id="choosePhotoForm" asp-controller="Account" asp-action="SetProfilePhoto">
-                <input name="file" style="display: none" id="userPhoto" accept="image/png, image/gif, image/jpeg" onchange="submitForm()" type="file">
-            </form>
+<div >
+    <div class="profile">
+        <div class="profile-img">
+            @if (Model.Photo?.Url is not null)
+            {
+                <img class="profile-photo" src="@Model.Photo.Url" alt="user.png"/>
+            }
+            else
+            {
+                <img class="profile-photo" src="~/images/default-user-image.jpg" alt="user.png"/>
+            }
+            <div class="profile-img-buttons">
+                <button type="button" class="button">
+                    <a asp-controller="Account" asp-action="EditProfile">Edit</a>
+                </button>
+                <button class="button" onclick="openFileChooser()">Change photo</button>
+                <form enctype="multipart/form-data" style="display: none" id="choosePhotoForm" asp-controller="Account" asp-action="SetProfilePhoto">
+                    <input name="file" style="display: none" id="userPhoto" accept="image/png, image/gif, image/jpeg" onchange="submitForm()" type="file">
+                </form>
+            </div>
+            <div class="profile-info">
+                <p>
+                    <b>Date Of Birth:</b> @(Model.DateOfBirth != null ? Model.DateOfBirth : "Unknown")
+                </p>
+                <p>
+                    <b>Gender:</b> @(Model.Gender ?? "Unknown")
+                </p>
+                <p>
+                    <b>Location:</b> <img src="@Model.Country?.FlagUrl" alt="" style="width: 20px"> @Model.Country?.Name
+                </p>
+            </div>
         </div>
-        <div class="profile-info">
-            <p>
-                <b>Date Of Birth:</b> @(Model.DateOfBirth != null ? Model.DateOfBirth : "Unknown")
-            </p>
-            <p>
-                <b>Gender:</b> @(Model.Gender ?? "Unknown")
-            </p>
-            <p>
-                <b>Location:</b> <img src="@Model.Country?.FlagUrl" alt="" style="width: 20px"> @Model.Country?.Name
-            </p>
+        <div class="profile-details">
+            <div class="profile-details-header">
+                <h1>@Model.FullName</h1>
+                <p>User since: @Model.CreatedAt.ToString()</p>
+            </div>
+            <div class="profile-details-body">
+                <p>Description:</p>
+                <p>@Model.Description</p>
+            </div>
         </div>
     </div>
-    <div class="profile-details">
-        <div class="profile-details-header">
-            <h1>@Model.FullName</h1>
-            <p>User since: @Model.CreatedAt.ToString()</p>
-        </div>
-        <div class="profile-details-body">
-            <p>Description:</p>
-            <p>@Model.Description</p>
+    <div class="mt-5" style="margin-left: 10%">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button onclick="changeTab('MyPosts')" class="nav-link active" id="myposts-tab" data-bs-toggle="tab" data-bs-target="#myposts" type="button" role="tab" aria-controls="myposts" aria-selected="true">My posts</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button onclick="changeTab('LikedPosts')" class="nav-link" id="likedposts-tab" data-bs-toggle="tab" data-bs-target="#likedposts" type="button" role="tab" aria-controls="likedposts" aria-selected="false">Liked posts</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button onclick="changeTab('SavedPosts')" class="nav-link" id="savedposts-tab" data-bs-toggle="tab" data-bs-target="#savedposts" type="button" role="tab" aria-controls="savedposts" aria-selected="false">Saved posts</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent" style="max-width: 55vw;">
+            
         </div>
     </div>
 </div>
+
 <script>
     let formToSubmitWithPhoto = document.querySelector('#choosePhotoForm');
     let submitForm = () => {
         formToSubmitWithPhoto.submit();
     }
-   
     
     let openFileChooser = () => {
         document.getElementById("userPhoto").click();
     }
+    
+    let changeTab = (viewName) => {
+        let xhr = new XMLHttpRequest();
+        
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById('myTabContent').innerHTML = xhr.responseText;
+            }
+        }
+        
+        xhr.open('GET', `/Account/${viewName}`, true);
+        xhr.send();
+    }
+    
+    changeTab('MyPosts');
 </script>

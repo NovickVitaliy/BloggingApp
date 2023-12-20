@@ -1,0 +1,8 @@
+@model List<PostResponse>
+
+@foreach (var post in Model)
+{
+    <div class="post w-100 border border-dark rounded mb-3 mt-3">
+        @await Component.InvokeAsync("ForMyPagePost", new {post = post})
+    </div>
+}

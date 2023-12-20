@@ -11,7 +11,10 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<User, UserDto>();
+        CreateMap<User, UserDto>()
+            .ForMember(u => u.LikedPosts,
+                opt => 
+                    opt.MapFrom(e => e.LikedPosts.Select(a => a.Post)));
         
         CreateMap<Photo, PhotoDto>();
         
